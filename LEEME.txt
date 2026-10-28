@@ -1,0 +1,1 @@
+Abre CONFIGURACION-GOOGLE.html. Publica únicamente web/ en tu alojamiento HTTPS. El servidor Google requiere configuración y pruebas en tu cuenta. Los fuentes complementarios se incluyen para mantenimiento; index.html contiene el motor completo y los recursos.

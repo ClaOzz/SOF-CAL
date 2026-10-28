@@ -1,0 +1,172 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CONFIGURACION-GOOGLE · SOF-CAL</title><style>body{font:16px/1.6 system-ui,sans-serif;color:#183452;background:#eef3f9;margin:0;padding:20px}main{max-width:900px;margin:auto;background:white;padding:clamp(20px,5vw,60px);border-top:8px solid #001D61;border-radius:14px}h1,h2{color:#001D61;line-height:1.2}h1{font-size:30px}h2{font-size:22px;margin-top:38px;border-top:1px solid #D1D2D4;padding-top:24px}a{color:#0181C9}code{font-size:.9em;overflow-wrap:anywhere}pre{white-space:pre-wrap;background:#edf3f8;padding:15px;border-radius:9px}table{border-collapse:collapse;display:block;overflow:auto;font-size:14px}th,td{text-align:left;border:1px solid #d1d2d4;padding:10px}th{background:#001D61;color:white}li{margin:8px 0}@media print{body,main{padding:0;background:white}h2{break-after:avoid}table,pre{break-inside:avoid}}</style><main><h1>SOF-CAL · Configuración de Google y Android</h1>
+<p>Versión 3.0 · 28 de octubre de 2026</p>
+<p>La app y el servidor están preparados. Este paquete no está conectado todavía a una cuenta real de Google: hay que ejecutar la configuración siguiente. No contiene contraseñas de Gmail ni secretos OAuth.</p>
+<h2>1. Archivos del paquete</h2>
+<ul>
+<li><code>web/index.html</code>: SOF-CAL con los formatos recibidos, el catálogo y el motor de exportación.</li>
+<li><code>web/manifest.webmanifest</code>, <code>web/sw.js</code> e iconos: instalación como aplicación web en Android.</li>
+<li><code>web/config.json</code>: dirección del servidor y del libro, inicialmente vacías.</li>
+<li><code>google/Code.gs</code>, <code>google/Dashboard.gs</code>, <code>google/appsscript.json</code>: servidor Google Apps Script.</li>
+<li><code>CONFIGURACION-GOOGLE.html</code>: esta guía para abrirla en un navegador.</li>
+<li><code>ALCANCE-Y-VALIDACION.md</code>: funcionamiento, comprobaciones y límites de esta entrega.</li>
+</ul>
+<p>El HTML suelto permite revisar la app y preparar datos mediante la administración local. Para Gmail y sincronización debe abrirse desde una dirección HTTPS. Una ruta <code>content://</code> o <code>file://</code> de Android no sirve para el retorno de Google.</p>
+<h2>2. Publicar la carpeta web</h2>
+<p>Puedes utilizar un alojamiento HTTPS que controles. Para GitHub Pages, publica únicamente el contenido de <code>web/</code> como fuente del sitio. En Settings → Pages selecciona la rama y la carpeta que contienen <code>index.html</code>; GitHub mostrará la dirección definitiva. Conserva esa dirección, incluida la carpeta del repositorio y la barra final.</p>
+<p>Este HTML incluye los formatos y enlaces de consulta. Quien pueda descargar el sitio puede obtener esos recursos incorporados; el login protege las operaciones del servidor, no el código ni los archivos incrustados. Publica estos recursos solo en un alojamiento cuya visibilidad sea adecuada para la documentación de la empresa. Los registros de campo se guardan en la cuenta Google configurada, no en GitHub.</p>
+<p>Por el tamaño del HTML, si la carga desde la web de GitHub no lo acepta, utiliza GitHub Desktop o Git para subirlo. No subas inspecciones, respaldos, claves o credenciales al repositorio.</p>
+<p>Fuente: <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">publicación de GitHub Pages</a>.</p>
+<h2>3. Crear el servidor y la base</h2>
+<p>Haz estos pasos preferiblemente desde una computadora, con el Gmail que será propietario del servicio.</p>
+<ol>
+<li>En Google Apps Script crea un proyecto nuevo llamado <code>SOF-CAL</code>.</li>
+<li>Pega el contenido de <code>google/Code.gs</code> en el archivo Código/Code.gs.</li>
+<li>Crea otro archivo de secuencia de comandos llamado <code>Dashboard</code> y pega <code>google/Dashboard.gs</code>.</li>
+<li>En Configuración del proyecto activa la visualización de <code>appsscript.json</code>. Sustituye su contenido por el archivo incluido.</li>
+<li>En Propiedades del script agrega <code>ADMIN_EMAIL</code> con tu Gmail. No uses aquí el correo corporativo si no es una cuenta Gmail: esta versión permite las cuentas <code>@gmail.com</code> solicitadas.</li>
+<li>Opcional: agrega <code>SPREADSHEET_ID</code> si quieres usar un libro creado por ti. Es el segmento de su URL entre <code>/d/</code> y <code>/edit</code>. Usa un libro dedicado a SOF-CAL; el inicializador prepara y protege sus hojas.</li>
+<li>Ejecuta <code>configurarSOFCAL</code> desde el editor. Google solicitará al propietario los permisos para administrar el libro, los archivos y el servicio. Si una política de la cuenta bloquea la autorización, resuelve esa configuración antes de continuar.</li>
+<li>El registro de ejecución mostrará la URL del libro. Si no indicaste un libro, se crea <code>SOF-CAL · Base de datos y Control</code>. Las carpetas iniciales también se crean en el Drive del propietario.</li>
+<li>Abre Implementar → Nueva implementación → Aplicación web. Ejecutar como: tu cuenta propietaria. Acceso al punto de entrada: Cualquier usuario. La API exige además una sesión Google y un correo activo en Usuarios para cada operación. No compartas públicamente el Sheet ni las carpetas por este paso.</li>
+<li>Implementa y copia la URL terminada en <code>/exec</code>. No uses la dirección de prueba <code>/dev</code>.</li>
+</ol>
+<p>Fuente: <a href="https://developers.google.com/apps-script/guides/web">aplicaciones web de Google Apps Script</a>.</p>
+<h2>4. Configurar el acceso con Gmail</h2>
+<ol>
+<li>En Google Cloud crea o selecciona un proyecto y configura Google Auth Platform / pantalla de consentimiento: nombre SOF-CAL, correo de asistencia y correo de contacto.</li>
+<li>Para cuentas Gmail personales, configura audiencia externa. Durante las pruebas agrega cada Gmail participante como usuario de prueba. Antes de un uso general completa la publicación/verificación que Google indique para tu proyecto.</li>
+<li>Crea un cliente OAuth de tipo <strong>Aplicación web</strong>. Agrega como URI de redirección autorizada la URL exacta de Apps Script terminada en <code>/exec</code> del paso anterior. No agregues el enlace del Sheet como redirección.</li>
+<li>Copia el ID del cliente y su secreto <strong>directamente en Propiedades del script</strong>. Nunca los pongas en <code>index.html</code>, <code>config.json</code> ni en un repositorio.</li>
+<li>Completa las propiedades siguientes:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Propiedad</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ADMIN_EMAIL</code></td>
+<td>Gmail del administrador inicial</td>
+</tr>
+<tr>
+<td><code>SPREADSHEET_ID</code></td>
+<td>Ya creado por el inicializador, o el libro dedicado que seleccionaste</td>
+</tr>
+<tr>
+<td><code>GOOGLE_CLIENT_ID</code></td>
+<td>ID del cliente OAuth web</td>
+</tr>
+<tr>
+<td><code>GOOGLE_CLIENT_SECRET</code></td>
+<td>Secreto del cliente; permanece en Apps Script</td>
+</tr>
+<tr>
+<td><code>WEB_APP_URL</code></td>
+<td>Dirección exacta de la implementación <code>/exec</code></td>
+</tr>
+<tr>
+<td><code>APP_URL</code></td>
+<td>Dirección HTTPS exacta de SOF-CAL a la que volverá el usuario</td>
+</tr>
+</tbody></table>
+<p><code>DATA_FOLDER_ID</code> y <code>DOCUMENT_FOLDER_ID</code> se crean durante la inicialización. No es necesario modificarlos a mano. La app cambia su destino desde el panel del administrador.</p>
+<p>La autorización de los usuarios solicita identidad, nombre y correo. El servidor accede a Sheets y Drive con los permisos del propietario que publicó Apps Script. No solicita la contraseña Gmail dentro de SOF-CAL. La sesión de la app dura como máximo una hora; al vencer se vuelve a iniciar sesión.</p>
+<p>Fuente: <a href="https://developers.google.com/identity/protocols/oauth2/web-server">flujo OAuth para aplicaciones web</a>.</p>
+<h2>5. Vincular la app</h2>
+<p>Edita <code>web/config.json</code> con este contenido, sustituyendo los valores de ejemplo:</p>
+<pre><code class="language-json">{
+  &quot;endpoint&quot;: &quot;URL_DE_APPS_SCRIPT_TERMINADA_EN_EXEC&quot;,
+  &quot;sheetURL&quot;: &quot;URL_DE_TU_GOOGLE_SHEET&quot;
+}
+</code></pre>
+<p>Publica ese archivo junto a <code>index.html</code>. Solo contiene direcciones, nunca secretos. Así cada teléfono recibe la configuración al abrir el sitio. Como alternativa, el administrador puede usar <strong>Configurar conexión</strong> desde la pantalla de acceso; esa configuración se conserva solo en ese navegador.</p>
+<p>Entra con <strong>Continuar con Google</strong>, elige un Gmail autorizado y pulsa <strong>Volver a SOF-CAL</strong> en la página de retorno. El administrador puede publicar los catálogos iniciales desde <strong>Administración → Publicar catálogos en Sheets</strong>. Los demás usuarios los descargan al entrar; también existe un botón de actualización manual. Los cambios en los enlaces se publican al guardarlos si el administrador está conectado.</p>
+<p>El administrador local conserva la contraseña de la versión anterior en el mismo navegador/origen. En una instalación sin datos previos, el valor inicial heredado es <code>1234</code>; cámbialo desde Administración → Seguridad. Ese acceso sirve para preparar datos antes de configurar Google. No concede acceso al servidor.</p>
+<h2>6. Autorizar usuarios y perfiles</h2>
+<p>En la hoja <code>Usuarios</code>, completa una fila por persona:</p>
+<table>
+<thead>
+<tr>
+<th>Columna</th>
+<th>Qué escribir</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Correo Gmail</td>
+<td>Gmail personal autorizado, completo</td>
+</tr>
+<tr>
+<td>Nombre</td>
+<td>Nombre y apellido que aparecerán como responsable</td>
+</tr>
+<tr>
+<td>Perfil</td>
+<td><code>admin</code>, <code>calidad</code> o <code>instalaciones</code></td>
+</tr>
+<tr>
+<td>Activo</td>
+<td><code>Sí</code> o <code>No</code></td>
+</tr>
+<tr>
+<td>Trigrama</td>
+<td>Trigrama del inspector, igual al catálogo de SOF-CAL</td>
+</tr>
+<tr>
+<td>Google sub</td>
+<td>Dejar vacío inicialmente: se completa al primer acceso</td>
+</tr>
+</tbody></table>
+<p>Instalaciones tiene Liberaciones, IAT, SAT, Rayados y Sensibilizaciones. Calidad tiene todas las actividades. Administración añade configuración y autorizaciones. El servidor revisa el perfil y el estado activo en cada llamada.</p>
+<p>Selecciona en las inspecciones el inspector vinculado a tu Gmail. La cuenta administradora puede migrar registros de otros inspectores. No compartas la contraseña de Google entre trabajadores.</p>
+<h2>7. Designar la carpeta de Google Drive</h2>
+<ol>
+<li>Crea o identifica la carpeta destino en Google Drive.</li>
+<li>Asegúrate de que el propietario que publicó Apps Script pueda crear archivos en ella.</li>
+<li>Copia el enlace de la carpeta.</li>
+<li>Entra a SOF-CAL con un Gmail cuyo perfil sea <code>admin</code>.</li>
+<li>En la pantalla de actividades pulsa <strong>Carpeta de Google Drive</strong>.</li>
+<li>Pega el enlace o el ID y pulsa <strong>Usar esta carpeta</strong>.</li>
+</ol>
+<p>En esa carpeta se crean <code>SOF-CAL - Datos y versiones</code> y <code>SOF-CAL - Documentos</code>. Los documentos se organizan por responsable → actividad → sistema. Por ejemplo: <code>SOF-CAL - Documentos / Wandry Parra / Liberaciones / PAT</code>.</p>
+<p>Los archivos de FNC y FHC son Word. Los PDF de inspecciones y otras actividades, y el Excel de causa raíz, se cargan desde sus respectivas exportaciones. Sheets conserva los enlaces.</p>
+<p>Cambiar la carpeta afecta a nuevos archivos y versiones. No mueve ni borra documentos anteriores; sus enlaces siguen funcionando. El acceso directo a los archivos respeta los permisos de Drive de esa carpeta. Utiliza una carpeta cuya lista de personas con acceso corresponda a la información que vas a guardar.</p>
+<h2>8. Consecutivos y prevención de duplicados</h2>
+<ul>
+<li>El número definitivo lo asigna Apps Script bajo bloqueo central. Dos solicitudes no leen e incrementan libremente el mismo contador.</li>
+<li>Una misma reserva se identifica por UUID; reintentar no crea un nuevo número.</li>
+<li>Las liberaciones siguen <code>PAT4426-001</code>: sistema PAT, semana ISO 44, año ISO 2026, secuencia 001. El siguiente lunes comienza 001 para ese sistema. Se comparte el contador de liberaciones entre proyectos para evitar códigos idénticos.</li>
+<li>El nombre del PDF contiene código de ficha, actividad, ubicación y consecutivo. Los caracteres no válidos para un archivo se reemplazan por guiones.</li>
+<li>Las inspecciones mantienen su esquema <code>INSP-CAL-SISTEMA-TRIGRAMA-NÚMERO</code>.</li>
+<li>FNC/FHC necesitan que el administrador indique el último número oficial usado en <code>Consecutivos</code>. Ejemplo de clave: <code>FNC|D220|2026</code>; si el último usado fue 25, escribe 25 y el próximo será 026. No se deducen números de las fichas de ejemplo.</li>
+<li>Una reserva no se reutiliza si el trabajo se cancela: puede haber saltos, pero no se reasigna un número ya reservado. No reduzcas ni borres contadores o reservas.</li>
+<li>Sin conexión se conserva el borrador. Para obtener un nuevo número definitivo se requiere conexión y sesión Google vigente.</li>
+</ul>
+<h2>9. Dashboard y seguimiento</h2>
+<p>Abre la hoja <code>Control</code>. Cambia Actividad, Responsable, Estado, Desde y Hasta. Se recalculan registros, finalizadas, pendientes, vencidas, porcentaje finalizado, OK/NOK/N/A/PEND/Sin responder y totales de semana/mes.</p>
+<p>Cada actividad tiene su propia pestaña, alimentada desde <code>Registros</code>. No escribas sobre las fórmulas de esas vistas. <code>Detalle_Campos</code> conserva los campos por UUID y versión. <code>Documentos</code> contiene los archivos exportados; <code>Auditoria</code> registra operaciones.</p>
+<p>En SOF-CAL, <strong>Control central</strong> permite filtrar, abrir registros y actualizar seguimiento. La app consulta aproximadamente cada 30 segundos mientras está visible y en línea; también puedes actualizar manualmente. No es una conexión continua de tiempo real. Las fórmulas del libro muestran las escrituras que ya llegaron al servidor.</p>
+<p>El propietario del Sheet puede actualizar el seguimiento en <code>Registros</code>, columnas T–V. Para otros usuarios, utiliza el botón Seguimiento en la app. Los datos técnicos de una ejecución se modifican desde SOF-CAL para conservar versiones.</p>
+<h2>10. Firmas y excepciones</h2>
+<p>En inspecciones se requiere la firma del inspector; los demás participantes son opcionales. FNC/FHC dejan sus espacios de firmas para el trámite posterior.</p>
+<p>En liberaciones, Calidad requiere firmas válidas de los presentes. Si faltan, el inspector solicita una excepción indicando el motivo. El administrador consulta el registro y autoriza desde <strong>Excepciones de firmas</strong>. El inspector vuelve a exportar. Si cambia el contenido, esa autorización deja de corresponder a la nueva versión. Instalaciones puede emitir sin confirmación administrativa, dejando constancia en el PDF. La excepción de firmas no sustituye la aprobación técnica de la ejecución.</p>
+<h2>11. Instalar en Android y actualizar</h2>
+<ol>
+<li>En Chrome abre la dirección HTTPS publicada de SOF-CAL, no el HTML desde RAR o Descargas.</li>
+<li>Espera la primera carga completa; el paquete incluye numerosos formatos.</li>
+<li>Configura o verifica la conexión y accede con Gmail.</li>
+<li>En el menú de Chrome, elige <strong>Instalar aplicación</strong> o <strong>Agregar a pantalla principal</strong>, según la versión del navegador.</li>
+<li>Abre SOF-CAL desde el icono. Para trabajar sin señal, entra antes con conexión; puedes continuar el borrador durante la sesión. Tras cerrar la app o vencer la sesión puede ser necesario volver a conectarte para autenticarte.</li>
+</ol>
+<p>Para actualizar, sustituye los archivos del sitio manteniendo la misma dirección. Los datos locales se conservan por navegador y origen. Cambiar de dominio, borrar datos de Chrome o abrir otra copia local crea otro almacenamiento: exporta un respaldo antes de migrar.</p>
+<h2>12. Migrar el histórico y restaurar</h2>
+<p>Desde la versión anterior exporta el respaldo y/o los PDF recuperables antes de sustituirla. La versión nueva mantiene el nombre de la base local, de modo que puede reutilizarla si se abre desde el mismo origen.</p>
+<p>Los PDF de inspección generados por SOF-CAL conservan datos recuperables. Los PDF de actividades de esta versión también incluyen su registro. Un escaneo o un PDF ajeno no basta para recuperar todos los campos. Importa los PDF desde el historial correspondiente, o restaura el archivo de respaldo.</p>
+<p>Después de revisar la importación, el administrador puede usar <strong>Control central → Exportar todos los registros locales</strong>. Los consecutivos históricos válidos se conservan y los contadores suben hasta el mayor utilizado. Los conflictos se presentan para revisión; no se sobreescriben silenciosamente.</p>
+<h2>13. Comprobar la instalación real</h2>
+<p>Antes de usarla en producción, prueba en un libro dedicado de ensayo: dos Gmail autorizados; un tercero no autorizado; perfiles Calidad/Instalaciones; una liberación desde cada teléfono; actualización del dashboard; carga de PDF y Word en la carpeta elegida; excepción de firmas; desconexión/reconexión; recuperación de un PDF; y conflicto de edición desde dos dispositivos.</p>
+<p>Si aparece “no devolvió JSON”, revisa URL <code>/exec</code>, acceso de la implementación, cuenta propietaria y versión publicada. Si aparece <code>redirect_uri_mismatch</code>, compara exactamente <code>WEB_APP_URL</code> y la redirección OAuth. Si aparece “sesión vencida”, vuelve a entrar. Si hay un conflicto, respalda los cambios locales y descarga la versión central desde Control.</p>
+<p>Para cambiar el código Apps Script, actualiza la implementación existente a una nueva versión, conservando su URL. Los límites y cuotas de Apps Script se aplican a la cuenta propietaria; esta solución está orientada a un equipo de trabajo y requiere revisar capacidad si aumentan los registros, evidencias o usuarios.</p>
+<p>Referencia: <a href="https://developers.google.com/apps-script/guides/services/quotas">cuotas de Apps Script</a>.</p>
+</main></html>
