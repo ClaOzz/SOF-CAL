@@ -1,0 +1,4 @@
+SOF-CAL 4.1.0
+Empieza por power-automate/LEEME-CONEXION.md.
+Incluye la aplicación web, fuentes, servidor Google y Office Script.
+Los documentos ACTUALIZAR-4 y CONFIGURACION-GOOGLE son referencias anteriores; para esta versión sigue la guía 4.1.0.

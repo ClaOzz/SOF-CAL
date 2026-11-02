@@ -1,0 +1,18 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
+const source=fs.readFileSync(path.join(__dirname,fs.existsSync(path.join(__dirname,'../src'))?'../src/experience.js':'../fuentes/experience.js'),'utf8');
+let timers=new Map(),next=0,overlay=null,button={disabled:false,innerHTML:'Continuar con Google',setAttribute(k,v){this[k]=v;}};
+const c={console,Promise,URLSearchParams,APP_ICON:'',esc:String,errMsg:e=>e.message,Schema:{},DEFAULT_GOOGLE:{endpoint:'mock'},Store:{async get(){return null},async put(){}},location:{hash:''},sessionStorage:{getItem(){return null}},document:{visibilityState:'visible',querySelectorAll(){return[button]},getElementById(id){return id==='login-progress'?overlay:null},createElement(){return {setAttribute(){},remove(){overlay=null}}},body:{append(el){overlay=el}}},setTimeout(fn,ms){const id=++next;timers.set(id,{fn,ms});return id},clearTimeout(id){timers.delete(id)},setInterval(){return 1},clearInterval(){},window:{addEventListener(){}},Session:{},Portal:{role:null},Cloud:{login(){}},navigator:{onLine:true}};
+vm.createContext(c);vm.runInContext(source.slice(source.indexOf('const Login='),source.indexOf('Cloud.loginView='))+'\nthis.Login=Login;',c);
+c.render=()=>{button.disabled=c.Login.busy;button.innerHTML=c.Login.busy?'Conectando…':'Continuar con Google';c.Login.paint()};
+vm.runInContext(source.slice(source.indexOf('Cloud.init=async'),source.indexOf("window.addEventListener('pageshow'")),c);
+(async()=>{
+ await c.Cloud.init();assert.equal(button.disabled,false);assert.match(button.innerHTML,/Continuar con Google/);assert.equal(overlay,null);console.log('PASS inicio sin sesión deja el botón habilitado');
+ c.sessionStorage.getItem=()=> 'session';c.Cloud.api=async()=>{throw Error('ACCESO_DENEGADO: correo desactivado')};await c.Cloud.init();assert.equal(button.disabled,false);assert.match(c.Cloud.error,/ACCESO_DENEGADO/);assert.equal(overlay,null);console.log('PASS error de acceso no deja el botón bloqueado');
+ for(const role of ['admin','calidad','instalaciones']){c.Cloud.api=async()=>({user:{role},serverVersion:'4.0'});c.Cloud.applyUser=()=>{c.Portal.role=role};c.Cloud.catalog=async()=>{};c.Cloud.refresh=async()=>{};c.Portal.home=async()=>{};c.Portal.remindDrafts=async()=>{};await c.Cloud.init();assert.equal(c.Portal.role,role);assert.equal(c.Login.busy,false);assert.equal(button.disabled,false);console.log('PASS fin de carga para '+role);}
+ c.Login.start('Conectando con Google');assert.equal(button.disabled,true);c.Login.finish();assert.equal(button.disabled,false);assert.equal(button['aria-busy'],'false');console.log('PASS bloqueo temporal y recuperación del botón');
+
+ let saved,removed=false;c.Cloud.user=null;c.sessionStorage.getItem=()=>null;c.sessionStorage.removeItem=()=>{removed=true};c.Store.put=async (_,r)=>{if(r.k==='google-config')saved=r.value};
+ const oldEndpoint='https://script.google.com/macros/s/AKfycbxl61W0ql8do1Xo-QkcBsfFVH02vKlX8irYLbfwdxC-Gon5ccfL1TYEUc_fTfuT4SgW/exec';
+ c.Store.get=async (_,k)=>k==='google-config'?{value:{endpoint:oldEndpoint,sheetURL:'keep-sheet'}}:null;await c.Cloud.init();assert.equal(saved.endpoint,c.DEFAULT_GOOGLE.endpoint);assert.equal(saved.sheetURL,'keep-sheet');assert.equal(removed,true);console.log('PASS migra dirección anterior y conserva Sheet');
+ removed=false;c.Store.get=async (_,k)=>k==='google-config'?{value:{endpoint:'https://custom.invalid/exec'}}:null;await c.Cloud.init();assert.equal(saved.endpoint,'https://custom.invalid/exec');assert.equal(removed,false);console.log('PASS conserva dirección personalizada');
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,9 @@
+# Validación SOF-CAL 4
+
+23 pruebas del backend con mocks superadas, sintaxis JavaScript correcta y revisión visual de escritorio y móvil (390 px). Se comprobaron indicadores, filtros, menú, Ajustes, acceso y consulta protegida. No hay validación contra Google real ni publicación remota.
+
+Se mantienen las 66 plantillas controladas y los enlaces/documentos del paquete anterior. El rediseño no certifica la revisión técnica de sus campos. Las capturas adicionales no se colocan automáticamente en casillas del documento.
+
+La ilustración fue generada para la interfaz; no es evidencia de campo.
+
+Consulte ACTUALIZAR-4.html para actualización, permisos, mantenimiento y límites.

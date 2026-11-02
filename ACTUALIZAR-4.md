@@ -1,0 +1,50 @@
+# SOF-CAL 4 · Actualización de la interfaz y permisos
+
+28 de octubre de 2026. Este paquete actualiza los archivos; no ha sido publicado en tu GitHub ni en tu cuenta de Google. La validación de Google real se hace después del despliegue.
+
+## Instalar sobre tu versión actual
+
+1. Exporta un respaldo desde la app y conserva una copia de tu hoja de Google y del proyecto de Apps Script.
+2. En el proyecto existente de Apps Script, reemplaza el contenido de **Code.gs** y **Dashboard.gs** por los archivos de la carpeta **google**. Agrega un archivo de script llamado **Administration** y pega **Administration.gs**. No borres las propiedades existentes ni los secretos OAuth.
+3. Selecciona y ejecuta una sola vez **actualizarSOFCAL4**. Agrega las hojas de perfiles y mantenimiento, actualiza las vistas y mantiene registros y consecutivos. No ejecutes de nuevo configurarSOFCAL ni inicialices contadores.
+4. En Apps Script abre **Implementar → Administrar implementaciones → Editar (lápiz) → Nueva versión → Implementar**. Actualiza la misma implementación para conservar la dirección terminada en /exec.
+5. En tu repositorio de GitHub reemplaza los archivos dentro de **web/** con los de **web/** de este paquete. El index.html debe continuar dentro de web; no cambies su ubicación.
+6. Conserva **Settings → Pages → Source: GitHub Actions** y el workflow existente que publica **path: ./web**. No cambies a main/(root), porque eso publicaría la raíz y podría mostrar el README.
+7. Guarda los cambios y comprueba que la ejecución de **Publicar SOF-CAL** termine correctamente en Actions. Cierra y vuelve a abrir la app. En computadora también puedes recargar con Ctrl+Shift+R. No borres los datos del navegador si tienes borradores locales pendientes.
+8. Confirma que el pie de la app muestre **Versión 4.0**. Prueba una captura nueva, el filtro por persona y una consulta con un usuario normal. El servidor anterior debe actualizarse: cambiar únicamente el HTML no habilita los nuevos permisos ni Ajustes.
+
+## Uso de la nueva interfaz
+
+- **Inicio:** indicadores filtrables por función, sistema, ubicación, semana, mes y persona. Consulta central cada 30 segundos mientras la app está activa; Actualizar solicita una consulta inmediata.
+- **Menú lateral:** cambia de función desde cualquier pantalla. En el teléfono se abre con el botón de tres líneas. Las pestañas de cada formulario se mantienen arriba y se desplazan horizontalmente.
+- **Proyecto automático:** se obtiene del sistema definido en el catálogo. En Materiales se obtiene de los subsistemas seleccionados. Los registros históricos mantienen el proyecto con el que fueron registrados. Ajustes permite administrar la relación sistema–proyecto.
+- **Registros del equipo:** todos los usuarios autenticados consultan los registros centrales de todas las funciones, aunque no tengan permiso para crear en ellas. Filtrar por persona selecciona al responsable de la captura.
+- **Edición:** las capturas locales se pueden completar y guardar como borrador. Al registrar en la base central, quedan de consulta para usuarios normales, incluso para su autor. Solo el administrador modifica registros centrales. El botón Registrar en la base central permite enviarlos expresamente; emitir un documento también registra la captura.
+- **Borradores:** los locales pueden eliminarse; los centrales solo los elimina el administrador. No se reutilizan consecutivos y eliminar un registro no elimina sus documentos de Drive.
+- **Inspecciones:** se retira FNC/FHC del apartado Cierre. Se mantiene la función independiente FNC/FHC y no se borran datos históricos existentes.
+- **Acceso con Google:** muestra progreso de carga y bloquea clics repetidos. Si falla, muestra el error y permite reintentar.
+- **Documentación y Ayuda:** mantienen filtros y explican la navegación y los permisos nuevos. Las sensibilizaciones permanecen en Documentación.
+
+## Ajustes — solo Administrador
+
+Usuarios por Gmail, perfiles y funciones permitidas; campos personalizados y tipos; sistemas/proyectos; listas e inspectores; formatos y enlaces; consecutivos oficiales; conexión de Google; carpeta de Drive; respaldos y excepciones de firmas.
+
+Los permisos también se comprueban en el servidor, no solo ocultando botones. El Administrador mantiene todas las funciones. No puede retirarse su propio acceso ni desactivar el último administrador activo.
+
+Los campos adicionales se almacenan en los registros y en el detalle central. No cambian automáticamente las casillas ni el diseño de los documentos controlados: su cumplimentación sigue respetando las plantillas.
+
+## Tres operaciones de mantenimiento separadas
+
+- **Restablecer configuración:** recupera configuración y perfiles predeterminados. Conserva registros, archivos, consecutivos, usuarios y conexión OAuth; desactiva usuarios cuyos perfiles personalizados dejan de existir.
+- **Eliminar registros:** selecciona función/proyecto o todos, muestra el alcance y exige escribir una confirmación. Marca los registros como eliminados y los retira de las consultas. Conserva consecutivos, auditoría y archivos emitidos.
+- **Retirar documentos de Drive:** envía a la papelera únicamente documentos emitidos asociados al alcance seleccionado. No vacía la papelera ni borra archivos ajenos.
+
+No se ejecuta ninguna de estas operaciones al instalar. Se solicita respaldo y confirmación antes de usarlas. El respaldo central JSON es una copia exportada para recuperación técnica; no se ofrece restauración automática de todo el servidor en esta versión.
+
+## Validación y límites
+
+23 pruebas automatizadas del servidor con datos simulados: numeración, reintentos, permisos, proyecto automático, eliminación, confirmaciones y conservación de consecutivos/documentos. Revisión visual en navegador de escritorio y ancho móvil de 390 px: indicadores, menú, filtros, Ajustes y consulta protegida. Comprobación de sintaxis JavaScript.
+
+No se ha probado el inicio de sesión con cuentas reales ni ejecutado operaciones sobre tu hoja/Drive. El problema previo de acceso con otro Gmail requiere verificar la implementación y configuración OAuth en tu cuenta; el rediseño no demuestra que ese problema esté resuelto. No se han modificado registros reales.
+
+La ilustración de ingeniería es un recurso gráfico generado para la interfaz, no evidencia de una inspección. Los formatos controlados conservan sus diseños. El HTML incluye 66 plantillas; su tamaño puede hacer que la primera carga tarde más que las siguientes.

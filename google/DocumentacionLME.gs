@@ -1,0 +1,19 @@
+/* Catálogo LME autenticado, separado de enlaces manuales. */
+function lmeLoad_(){const id=prop_('LME_FILE_ID',true);return id?JSON.parse(DriveApp.getFileById(id).getBlob().getDataAsString()):{documents:[],syncedAt:null};}
+function lmeSync_(req){const key=prop_('LME_SYNC_SECRET');if(key.length<32||hash_(String(req.secret||''))!==hash_(key))throw Error('Integración no autorizada.');return lock_(()=>lmeStore_(typeof req.payload==='string'?JSON.parse(req.payload):req.payload));}
+function lmeStore_(p){
+ if(p?.schema!==1||p.source!=='D220-LME'||!Array.isArray(p.documents)||!p.documents.length||p.documents.length>15000||!Number.isFinite(Date.parse(p.exportedAt)))throw Error('Catálogo inválido.');
+ const keys=['id','code','title','status','bpe','revision','date','ice','phase','system','responsible','notes','versionId','project','location','type','asBuilt','url'],seen=new Set();
+ const docs=p.documents.map(d=>{const x={};keys.forEach(k=>x[k]=String(d[k]||'').slice(0,k==='url'?4000:2000));if(!x.id||!x.code||!x.title||seen.has(x.id))throw Error('Documento incompleto o duplicado.');seen.add(x.id);if(x.url&&!/^https:\/\/sofratesapanamainc\.sharepoint\.com\//i.test(x.url))throw Error('Destino documental no autorizado.');return x;});
+ const old=lmeLoad_();if(old.exportedAt&&Date.parse(p.exportedAt)<Date.parse(old.exportedAt))throw Error('Sincronización anterior a la vigente.');
+ const data={schema:1,source:p.source,documents:docs,exportedAt:p.exportedAt,syncedAt:new Date().toISOString()},b=book_();let s=b.getSheetByName('Documentacion_LME');if(!s)s=b.insertSheet('Documentacion_LME');
+ const matrix=[keys,...docs.map(d=>keys.map(k=>safe_(d[k])))];if(matrix.length>s.getMaxRows())s.insertRowsAfter(s.getMaxRows(),matrix.length-s.getMaxRows());if(keys.length>s.getMaxColumns())s.insertColumnsAfter(s.getMaxColumns(),keys.length-s.getMaxColumns());s.clearContents();s.getRange(1,1,matrix.length,keys.length).setValues(matrix);s.setFrozenRows(1);
+ const f=DriveApp.getFolderById(prop_('DATA_FOLDER_ID')).createFile(Utilities.newBlob(JSON.stringify(data),'application/json','LME-'+Date.now()+'.json'));PropertiesService.getScriptProperties().setProperty('LME_FILE_ID',f.getId());
+ const rs=b.getSheetByName('Reportes_Enlaces');if(rs&&rs.getLastRow()>1){const available=new Set(docs.filter(d=>d.url).map(d=>d.code));rs.getRange(2,1,rs.getLastRow()-1,7).getValues().forEach((r,i)=>{if(available.has(r[1])&&r[6]==='Notificado')rs.getRange(i+2,7).setValue('Resuelto');});}
+ return {saved:docs.length,syncedAt:data.syncedAt};
+}
+function lmeApi_(u,req){if(req.mode==='import'){if(u.role!=='admin')throw Error('Requiere Administrador.');return lock_(()=>lmeStore_(req.payload));}if(req.mode!=='report')return lmeLoad_();return lock_(()=>{
+ const data=lmeLoad_(),d=data.documents.find(d=>d.id===req.id);if(!d)throw Error('Documento no encontrado.');if(d.url)throw Error('Ya existe enlace. Actualice el catálogo.');const b=book_();let s=b.getSheetByName('Reportes_Enlaces');if(!s){s=b.insertSheet('Reportes_Enlaces');s.appendRow(['Clave','Código','Versión','Título','Solicitante','Fecha','Estado']);}
+ const rows=s.getLastRow()>1?s.getRange(2,1,s.getLastRow()-1,7).getValues():[];if(rows.some(r=>r[1]===d.code&&r[2]===d.revision&&r[6]==='Notificado'))return {alreadyReported:true};
+ MailApp.sendEmail({to:'dmontero@sofratesa.com',subject:'SOF-CAL · Enlace faltante · '+d.code,body:['Por favor, actualizar el enlace en la columna J de LME.','Código: '+d.code,'Documento: '+d.title,'Versión: '+d.revision,'Estado: '+d.status,'Sistema: '+d.system,'Ubicación: '+d.location,'Solicitante: '+u.name+' <'+u.email+'>','Fecha: '+new Date().toISOString()].join('\n')});
+ s.appendRow([hash_(d.id+'|'+d.revision),safe_(d.code),safe_(d.revision),safe_(d.title),safe_(u.email),new Date(),'Notificado']);return {sent:true};});}
