@@ -1,0 +1,56 @@
+name: Publicar SOF-CAL
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy.yml'
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Publicar SOF-CAL
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Descargar archivos del repositorio
+        uses: actions/checkout@v4
+
+      - name: Verificar archivos de SOF-CAL
+        run: |
+          echo "Verificando archivos..."
+          test -f web/index.html
+          ls -lah web/
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Preparar aplicacion para publicar
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./web
+
+      - name: Publicar SOF-CAL en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Confirmar publicacion
+        run: |
+          echo "SOF-CAL publicado correctamente"
+          echo "URL: ${{ steps.deployment.outputs.page_url }}"
