@@ -1,0 +1,691 @@
+{
+  "id": "iat-scadi-etp-va-20250130",
+  "kind": "iat",
+  "system": "SCADI",
+  "variant": "ETP",
+  "currentConfirmedByUser": true,
+  "sourceLibraryId": "libfile_8c1de25d12948191bf793457e4a4e383",
+  "sourceName": "Protocolo IAT - SCADI 30.01.2025 VA (AVE)1 E04.xlsx",
+  "sections": [
+    {
+      "name": "Portada"
+    },
+    {
+      "name": "Sesiones"
+    },
+    {
+      "name": "Pendientes"
+    },
+    {
+      "name": "Indice"
+    },
+    {
+      "name": "Equipos ETP"
+    },
+    {
+      "name": "Instalación"
+    },
+    {
+      "name": "Cableado ETP"
+    },
+    {
+      "name": "Verificación de cables"
+    }
+  ],
+  "tests": [
+    {
+      "id": "iat-scadi-etp:Instalación:A18",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A18",
+      "description": "Verificar que el cableado este organizado en las bandejas de comunicación.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A19",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A19",
+      "description": "Verificar que las tuberias o conduit esten correctamente acopladas a las bandejas.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A20",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A20",
+      "description": "Verificar que las tuberias o conduit esten correctamente acopladas a las cajas de pasos y/o registros.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A21",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A21",
+      "description": "Verificar que NO exista continuidad entre los hilos conductores, el apantallado del cable y las partes metalicas de las cajas de paso y/o tuberias.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A22",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A22",
+      "description": "Verificar que las cajas de paso y/o registros esten completamente cerradas (Si aplica).",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A23",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A23",
+      "description": "Verificar que los cables de comunicación y de energía DC para cada puerta provienen de sus respectivos cofres según el diagrama unifilar del sistema. Utilizar un generador de tonos para rastrear todo el recorrido de los cables.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A24",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A24",
+      "description": "Verificar que los cables del bus RS485 respetan el recorrido establecido en el diagrama unifilar del sistema. Utilizar un generador de tonos para rastrear todo el recorrido de los cables.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A25",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A25",
+      "description": "Verificar que las cajas de paso y/o registros para la instalación de los perifericos esten fijados correctamente según las distancias establecidas en los planos de detalles.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A26",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A26",
+      "description": "Verificar que las cajas de paso y/o registros para la instalación de los perifericos esten fijados correctamente en sus superficies.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A27",
+      "section": "3. Inspección general de la instalación de los cables y canalizaciones.",
+      "sourceCell": "Instalación!A27",
+      "description": "Verificar que todos los cables esten etiquetados correctamente en ambos extremos. Consultar con tabla de conexionado del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A30",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A30",
+      "description": "Verificar si los cofres de control de acceso, tableros para alimentación de ventosas y paneles de alarmas se instalaron en la ubicación correspondiente según el plano de detalles del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A31",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A31",
+      "description": "Verificar si los cofres de control de acceso, tableros para alimentación de ventosas y paneles de alarmas estan etiquetados correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A32",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A32",
+      "description": "Verificar si los cofres de control de acceso, tableros para alimentación de ventosas y paneles de alarmas estan fijados correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A33",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A33",
+      "description": "Verificar que los cables de alimentación AC, cable ethernet, cables de bus RS485, cables de comunicación y energía DC de cada puerta, ingresen corrrectamente al cofre de control de acceso.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A34",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A34",
+      "description": "Verificar que los cables de alimentación AC ingresen correctamente al tablero de alimentación de ventosas.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A35",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A35",
+      "description": "Verificar que el voltaje de alimentación AC que proviene del tablero electrico sean 120VAC a 60HZ.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A36",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A36",
+      "description": "Verificar que todos los cables dentro del tablero de alimentación de ventosas esten correctamente conectados a los disyuntores.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A37",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A37",
+      "description": "Verificar que los cables del bus RS485, cables de comunicación y cables de energía DC de cada puerta esten correctamente conectados a las borneras y conectores del cofre de control de acceso. Según manual de instalacion del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A38",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A38",
+      "description": "Verificar que los detectores volumetricos esten conectados correctamente en el panel de alarmas.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A39",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A39",
+      "description": "Verificar que NO existan agujeros sin sellar en los cofres, tableros y paneles del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A40",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A40",
+      "description": "Verificar que las puertas cierran correctamente en los cofres, tableros y paneles del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A41",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A41",
+      "description": "Verificar que las puertas abren correctamente en los cofres, tableros y paneles del sistema (Sin interferir con otros elementos).",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A42",
+      "section": "4. Inspección general de la instalación de los cofre, tableros y paneles.",
+      "sourceCell": "Instalación!A42",
+      "description": "Verificar que en el tablero de alimentación de ventosas este prevista la entrada para la interfaz con el sistema FDS.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A45",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A45",
+      "description": "Verificar que las cajas de conexionado estan fijadas correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A46",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A46",
+      "description": "Verificar que las cajas de conexionado estan cerradas correctamente con todos sus tornillos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A47",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A47",
+      "description": "Verificar que las cajas de conexionado estan etiquetadas correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A48",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A48",
+      "description": "Verificar que NO existan agujeros o espacios sin sellar en las cajas de conexionado.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A49",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A49",
+      "description": "Verificar que las tarjetas PCB estan fijadas correctamente dentro de las cajas de conexionado.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A50",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A50",
+      "description": "Verificar que las tarjetas PCB dentro de las cajas de conexionado cuentan con todos sus conectores.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A51",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A51",
+      "description": "Verificar que la configuracion de los dipswitch de las tarjetas PCB se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A52",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A52",
+      "description": "Verificar que todos los cables en las tarjetas PCB esten conectados correctamen según la configuracion para cada tipo de puertas.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A53",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A53",
+      "description": "Verificar que NO existan filamentos de cables expuestos en los conectores de las tarjetas PCB.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A54",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A54",
+      "description": "Verificar que los lectores de tarjetas estan fijados correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A55",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A55",
+      "description": "Verificar que los lectores de tarjetas estan etiquetados correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A56",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A56",
+      "description": "Verificar que las conexiones en los lectores de tarjetas se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A57",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A57",
+      "description": "Verificar que NO existan filamentos de cables expuestos en la bornera de los lectores de tarjetas.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A58",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A58",
+      "description": "Verificar que la configuracion de los dipswitch del lector de tarjetas se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A59",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A59",
+      "description": "Verificar que NO existan huecos visibles alrededor del lector de tarjetas.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A60",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A60",
+      "description": "Verificar que los cajetines de acceso de emergencia estan fijados correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A61",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A61",
+      "description": "Verificar que los cajetines de acceso de emergencia estan etiquetados correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A62",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A62",
+      "description": "Verificar que las conexiones en los cajetines de acceso de emergencia se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A63",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A63",
+      "description": "Verificar que NO existan filamentos de cables expuestos en las conexiones con los cajetines de acceso de emegencia.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A64",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A64",
+      "description": "Verificar que los cajetines de acceso de emergencia se pueden accionar correctamente con la llave que estos incluyen.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A65",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A65",
+      "description": "Medir continuidad en la tarjeta PCB en los terminales que corresponden a los contactos Normalmente Abierto y los contactos Normalmente Cerrado del cajetin de acceso de emergencia; realizar las mediciones antes y despues de accionar el dispositivo.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A66",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A66",
+      "description": "Verificar que NO existan huecos visibles alrededor del cajetin de acceso de emergencia.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A67",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A67",
+      "description": "Verificar que los pulsadores de salida estan fijados correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A68",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A68",
+      "description": "Verificar que los pulsadores de salida estan etiquetados correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A69",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A69",
+      "description": "Verificar que las conexiones en los pulsadores de salidas se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A70",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A70",
+      "description": "Verificar que NO existan filamentos de cables expuestos en las conexiones con los pulsadores de salida.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A71",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A71",
+      "description": "Verificar que NO existan huecos visibles alrededor del pulsador de salida.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A72",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A72",
+      "description": "Verificar que los pulsadores de salida de emergencia estan fijados correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A73",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A73",
+      "description": "Verificar que los pulsadores de salida de emergencia estan etiquetados correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A74",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A74",
+      "description": "Verificar que las conexiones en los pulsadores de salida de emergencia se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A75",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A75",
+      "description": "Verificar que NO existan filamentos de cables expuestos en las conexiones con los pulsadores de salida de emergencia.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A76",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A76",
+      "description": "Verificar que los pulsadores de salida de emergencia se pueden restablecer correctamente con la llave que estos incluyen, luego de ser accionados.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A77",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A77",
+      "description": "Medir continuidad en la tarjeta PCB en los terminales que corresponden a los contactos Normalmente Abierto y los contactos Normalmente Cerrado de los pulsadores de salida de emergencia; realizar las mediciones antes y despues de accionar el dispositivo.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A78",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A78",
+      "description": "Verificar que NO existan huecos visibles alrededor del pulsador de salida de emergencia.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A79",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A79",
+      "description": "Verificar que las barras antipanico estan fijadas correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A80",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A80",
+      "description": "Verificar que las barras antipanico estan etiquetadas correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A81",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A81",
+      "description": "Verificar que las conexiones en las barras antipanico se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A82",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A82",
+      "description": "Verificar que NO existan filamentos de cables expuestos en las conexiones con las barras antipanico.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A83",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A83",
+      "description": "Verificar que las barras antipanico se pueden accionar correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A84",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A84",
+      "description": "Medir continuidad en la tarjeta PCB en los terminales que corresponden a los contactos Normalmente Abierto y los contactos Normalmente Cerrado de las barras antipanico; realizar las mediciones antes y despues de accionar el dispositivo.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A85",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A85",
+      "description": "Verificar que los cables de las barras antipanico NO esten expuestos o visibles.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A86",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A86",
+      "description": "Verificar que los detectores volumetricos estan fijados correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A87",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A87",
+      "description": "Verificar que los detectores volumetricos estan etiquetados correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A88",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A88",
+      "description": "Verificar que las conexiones en los detectores volumetricos se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A89",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A89",
+      "description": "Verificar que la colocacion del jumper interno del detector volumetrico se realizo acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A90",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A90",
+      "description": "Verificar que NO existan filamentos de cables expuestos en las conexiones con los detectores volumetricos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A91",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A91",
+      "description": "Verificar que NO existan huecos visibles alrededor del detector volumetrico.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A92",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A92",
+      "description": "Verificar que el detector volumetrico este orientado mirando hacia la entrada.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A93",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A93",
+      "description": "Verificar que los contactos magneticos estan fijados correctamente (Una parte sobre el marco de la puerta y otra parte sobre la puerta).",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A94",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A94",
+      "description": "Verificar que los contactos magneticos estan instalados según la ubicación establecida en los planos de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A95",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A95",
+      "description": "Verificar que los contactos magneticos estan etiquetados correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A96",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A96",
+      "description": "Verificar que las conexiones en los contactos magneticos se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A97",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A97",
+      "description": "Verificar que se utilizaron los terminales correcto para la conexión con los contactos magneticos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A98",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A98",
+      "description": "Verificar que NO existan filamentos de cables expuestos en las conexiones con los contactos magneticos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A99",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A99",
+      "description": "Medir continuidad en la tarjeta PCB en los terminales que corresponden a los contactos Normalmente Abierto de los contactos magneticos; realizar las mediciones antes y despues de accionar el dispositivo.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A100",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A100",
+      "description": "Verificar que las ventosas magneticas estan fijadas correctamente (Una parte sobre el marco de la puerta y otra parte sobre la puerta).",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A101",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A101",
+      "description": "Verificar que las puertas pueden abrir y cerrar correctamente antes de energizar las ventosas magneticas.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A102",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A102",
+      "description": "Verificar en las puertas de vidrio flotante que las ventosas magneticas cuentan con su placa de separacion entre los soportes tipo U y el vidrio (Solo puertas de vidrio flotante o templado).",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A103",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A103",
+      "description": "Verificar que las ventosas magneticas estan instaladas según la ubicación establecida en los planos de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A104",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A104",
+      "description": "Verificar que las ventosas magneticas estan etiquetadas correctamente. Según el acronimo utilizado en los planos.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A105",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A105",
+      "description": "Verificar que las conexiones en las ventosas magneticas se realizaron acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A106",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A106",
+      "description": "Verificar que la colocacion del jumper interno de las ventosas magneticas se realizo acorde al manual de instalacion y plano de detalle del sistema.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A107",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A107",
+      "description": "Verificar que NO existan filamentos de cables expuestos en las conexiones con las ventosas magneticas.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A108",
+      "section": "5. Inspección general de la instalación de los perifericos.",
+      "sourceCell": "Instalación!A108",
+      "description": "Medir en las tarjetas PCB, la resistencia de las ventosas magneticas en los terminales correspondientes.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A111",
+      "section": "5. Inspección visual de equipos.",
+      "sourceCell": "Instalación!A111",
+      "description": "Verificar que los cofres, tableros y paneles estan anivelados correctamente.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A112",
+      "section": "5. Inspección visual de equipos.",
+      "sourceCell": "Instalación!A112",
+      "description": "Verificos que los cofres, tableros y paneles NO tengan marcas de pintura o suciedad.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A113",
+      "section": "5. Inspección visual de equipos.",
+      "sourceCell": "Instalación!A113",
+      "description": "Verificar que los dispositivos perifericos estan anivelados.",
+      "defaultResult": ""
+    },
+    {
+      "id": "iat-scadi-etp:Instalación:A114",
+      "section": "5. Inspección visual de equipos.",
+      "sourceCell": "Instalación!A114",
+      "description": "Verificar que los dispositivos perifericos NO tengan marcas de pintura o suciedad.",
+      "defaultResult": ""
+    }
+  ],
+  "resultOptions": [
+    "OK",
+    "NOK",
+    "PEND",
+    "N/A"
+  ],
+  "responseScope": "one-per-test",
+  "repeatable": [
+    "sessions",
+    "equipment",
+    "cables",
+    "instruments",
+    "measurements",
+    "references",
+    "photos"
+  ],
+  "reviewRequired": true
+}

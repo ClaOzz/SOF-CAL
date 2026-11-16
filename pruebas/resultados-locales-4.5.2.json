@@ -1,0 +1,132 @@
+[
+  {
+    "test": "node release/SOF-CAL/pruebas/android45.test.cjs",
+    "passed": true,
+    "output": "PASS: one-use bound Android ticket; cached identity, token binding, expiry, logout\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/auditoria44.test.cjs",
+    "passed": true,
+    "output": "PASS fechas imposibles, riesgo desconocido y pendientes con campos reales.\nPASS enlaces corporativos LME y rechazo de dominio suplantado.\nPASS respuesta anterior descartada tras cambiar de cuenta.\nPASS consultas paralelas sin duplicación, cambio de módulo y descarte de sesión anterior.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/backend.test.cjs",
+    "passed": true,
+    "output": "PASS Semanas ISO y cambio de año\nPASS Dos usuarios obtienen números diferentes y un reintento conserva el número\nPASS La semana siguiente reinicia en 001\nPASS Reserva no cambia de sistema ni pasa a otro usuario\nPASS Instalaciones no puede acceder a RRHH\nPASS Proyecto legado con nombre se normaliza\nPASS Contador FNC exige último valor oficial y se comparte entre semanas\nPASS Reintentar un guardado no crea otra versión ni otro archivo\nPASS Otro autor no puede sobrescribir el registro\nPASS Sin responder incluye puntos todavía no registrados\nPASS Fórmulas recibidas se conservan como texto\nPASS Calidad necesita autorización de firmas e Instalaciones no\n12 pruebas de backend superadas. Google real pendiente de despliegue.\nPASS Eliminar exige autor, borrador y versión actual; evita resucitar UUID\nPASS No se elimina un registro finalizado\nPASS Esquema admite tipos válidos y protege campos de seguridad\nPASS Autor edita borrador y no puede reabrir finalizado sin aprobación\nPASS RRHH privado: otro usuario no puede listar ni abrir por UUID\nPASS Proyecto se asigna por sistema y no por el dato enviado\nPASS Cambiar el perfil cambia las funciones permitidas en el servidor\nPASS El marcador de envío no invalida firmas\nTodas las pruebas SOF-CAL 4 completadas.\nPASS Mantenimiento y administración rechazan usuarios normales\nPASS Eliminar registros exige confirmación y conserva documentos y consecutivos\nPASS Retirar documentos envía solo los archivos asociados a la papelera\n23 pruebas completadas sin conexión a Google real.\nPASS Reapertura: solicitud del autor, correo idempotente y aprobación administrativa\nPASS Nueva reserva evita códigos ya ocupados aunque el contador esté atrasado\nPASS SAT integración: serie INT, sistemas válidos y conservación de códigos existentes\nPASS Referencia anterior: conserva registros firmados y finalizados\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/dashboard45.test.cjs",
+    "passed": true,
+    "output": "PASS indicadores: propios por correo, selección explícita del equipo, homónimos, reinicio de filtros y cambio de cuenta.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/documental451.test.cjs",
+    "passed": true,
+    "output": "PASS administrative permission, flags, concurrent updates, version changes, filters and optional plan despite required catalog\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/gestion42.test.cjs",
+    "passed": true,
+    "output": "PASS Calibración límite 2027-02-03\nPASS Calibración límite 2027-02-02\nPASS Calibración límite 2026-12-05\nPASS Calibración límite 2026-12-04\nPASS Calibración límite 2026-11-04\nPASS Bloqueo operativo separado de certificado vigente\nPASS Averiado y desvinculado prevalecen sobre fechas\nPASS Riesgo: límites e invalidez\nPASS Guardar equipo, versión y conflicto\nPASS Código duplicado rechazado\nPASS Consulta no edita y supervisor solo seguimiento\nPASS Secuencias independientes y conciliación histórica\nPASS No se cierra con acciones pendientes\nPASS Eliminar conserva historial y código\nPASS Configuración rechaza enlace ajeno, alertas sin destinatario y HTML de color\n15 pruebas de Gestión 4.2 superadas. Sin servicios reales.\nPASS Banco de firmas oculta firmas no autorizadas\nPASS Firma exige autorización, documento y confirmación explícita\nPASS Delegado no puede cambiar permisos ni desactivar firma ajena\nPASS Firma desactivada no admite nuevas aplicaciones\n19 pruebas incluyendo banco de firmas superadas.\nPASS Consulta compartida incluye registros de otros correos y paginación\nPASS FNC y FHC guardan sin criticidad y descartan valores heredados\nPASS Seguimiento toma los datos del documento vinculado y evita duplicados\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/import43.test.cjs",
+    "passed": true,
+    "output": "PASS 522 registros, 130 acciones asociadas, 39 por revisar, 20 filas con código repetido; reimportación idempotente; permisos.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/lme.test.cjs",
+    "passed": true,
+    "output": "PASS LME: clave, validación, permisos, destinatario y duplicados; sin correos reales\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/login.test.cjs",
+    "passed": true,
+    "output": "PASS inicio sin sesión deja el botón habilitado\nPASS error de acceso no deja el botón bloqueado\nPASS fin de carga para admin\nPASS fin de carga para calidad\nPASS fin de carga para instalaciones\nPASS bloqueo temporal y recuperación del botón\nPASS migra dirección anterior y conserva Sheet\nPASS conserva dirección personalizada\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/new-form45.test.cjs",
+    "passed": true,
+    "output": "PASS ruta Completar formato: autor, autollenado y SAT INT antes del primer guardado; formatos IAT y códigos anteriores conservados.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/notificaciones44.test.cjs",
+    "passed": true,
+    "output": "PASS administradores activos sin duplicados, línea base sin correos históricos, trigger único, registro nuevo, edición sin aviso, reintento por destinatario, cuota pendiente, equipos, permisos y desactivación. Sin correos reales.\nPASS 4.5.2 recipient edits: administrator permission, separators, duplicates, invalid addresses, custom routing, removed recipients, no historical resend, empty-list rules; mock mail only.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/pendientes44.test.cjs",
+    "passed": true,
+    "output": "PASS pendientes NOK/PEND, exclusión OK/NA, etiquetas y referencias, liberaciones manuales y estados exactos.\nPASS vigencia registrada independiente de enlace de certificado; equipo averiado y margen de 30 días.\nVigentes según ficha en copia al 06/11/2026: 125\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/protocol-catalog45.test.cjs",
+    "passed": true,
+    "output": "PASS protocolos: 156 pruebas SCADI new, old excluido, 155 pruebas PDA sin filtro, paginación y resultados inicialmente vacíos.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/protocol-documents45.test.cjs",
+    "passed": true,
+    "output": "PASS: navigation, no new forms, original files and configured links\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/protocol-form45.test.cjs",
+    "passed": true,
+    "output": "PASS formulario: resultados explícitos, N/A justificado, captura por sección, cero válido, filtros sin mutación, escape de texto y paginación de 155 pruebas.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/protocol-model45.test.cjs",
+    "passed": true,
+    "output": "PASS protocolos: resultados vacíos, PEND separado, respuesta general, filas ampliables, pendientes sin duplicados y diferencias sin decidir conformidad.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/rapidez44.test.cjs",
+    "passed": true,
+    "output": "PASS formatos bajo demanda, solicitudes simultáneas, copia independiente, formatos propios, reintento y 67 PDF disponibles.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/release41.test.cjs",
+    "passed": true,
+    "output": "PASS 4.1: arranque del módulo, planos, equipos, PEND, N/A y migración idempotente\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/release45.test.cjs",
+    "passed": true,
+    "output": "PASS 4.5 ownership, privacy, resource applicability, PDF fitting, durable 2-hour queue, previous inspection.\n"
+  },
+  {
+    "test": "node release/SOF-CAL/pruebas/sesiones44.test.cjs",
+    "passed": true,
+    "output": "PASS sesión de 8 h, límite exacto, sin renovación por actividad, revocación, usuario desactivado y reducción de sesiones anteriores.\nPASS 4.5 renovación explícita por interacción: otras 8 horas, consultas no renuevan y no revive sesiones vencidas/revocadas.\n"
+  },
+  {
+    "test": "node base/ui44.test.cjs",
+    "passed": true,
+    "output": "PASS render de tabla, tablero, ficha, documentos, trazabilidad y acceso FNC/FHC único.\nPASS cuatro tarjetas de Ajustes, generación FNC/FHC restaurada, asistencia y pendientes compartidos.\nPASS carpetas por contratista, documentos internos, separación de empresas y sin filtro por sistema.\nPASS guardado visible en ficha para editor y oculto para consulta.\n"
+  },
+  {
+    "test": "node base/layout42-test.cjs",
+    "passed": true,
+    "output": "OK: Ajustes, firmas, campos, Ayuda y Documentación dentro de workspace-content.\n"
+  },
+  {
+    "test": "node base/pdf45-test.cjs",
+    "passed": true,
+    "output": "PASS FNC/FHC PDF original format: 15 photos, 10 pages each.\n"
+  },
+  {
+    "test": "node base/protocol-export45-test.cjs",
+    "passed": true,
+    "output": "PASS PDF PDA: 155 respuestas en el original; observaciones largas con continuación; sin recortes ni mutación del registro. Páginas: 74\nPASS PDF SCADI: 156 respuestas generales; hojas old excluidas de la nueva emisión.\n"
+  },
+  {
+    "test": "python base/verify-protocol45.py",
+    "passed": true,
+    "output": "PASS PDF read-back: 620 technical fields, 155 results, 50 long observations; no source #VALUE! errors.\nPASS SCADI PDF read-back: old sheets absent, new sheets retained.\n"
+  },
+  {
+    "test": "node --check base/check42-6.js",
+    "passed": true,
+    "output": ""
+  }
+]

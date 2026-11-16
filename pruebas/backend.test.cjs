@@ -1,0 +1,69 @@
+const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict'),crypto=require('node:crypto');
+const tables={},files=new Map();let fileCounter=0;
+const range=(sheet,row,col,n=1,m=1)=>({setValues(values){for(let i=0;i<values.length;i++){const rr=tables[sheet][row-2+i]||(tables[sheet][row-2+i]=[]);for(let j=0;j<values[i].length;j++)rr[col-1+j]=values[i][j];}return this;},setValue(value){return this.setValues([[value]]);},getValue(){return tables[sheet][row-2]?.[col-1];}});
+const context={console,Date,JSON,Object,String,Number,Math,Array,Error,RegExp,Set,Map,
+ SpreadsheetApp:{flush(){}},Utilities:{DigestAlgorithm:{SHA_256:'sha256'},Charset:{UTF_8:'utf8'},computeDigest(_,v){return [...crypto.createHash('sha256').update(String(v)).digest()];},newBlob(content,mime,name){return{content,mime,name};}},DriveApp:{getFolderById(){return {createFile(blob){const id='file'+(++fileCounter);const f={getUrl:()=>`https://drive.google.com/file/d/${id}/view`,getId:()=>id,getBlob:()=>({getDataAsString:()=>blob.content})};files.set(id,f);return f;}};},getFileById(id){return files.get(id);}},LockService:{getScriptLock(){return {tryLock:()=>true,releaseLock(){}}}}};
+vm.createContext(context);vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../google/Documental451.gs'),'utf8'),context);vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../google/Administration.gs'),'utf8'),context);vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../google/Code.gs'),'utf8'),context);
+vm.runInContext(`growViews_=()=>{};values_=name=>tables[name]||[];append_=(name,rows)=>{tables[name]??=[];tables[name].push(...rows);};book_=()=>({getSheetByName:name=>({getRange:(...args)=>range(name,...args)})});prop_=()=> 'mock';recordRow_=id=>{const i=(tables.Registros||[]).findIndex(r=>r[0]===id);return i<0?null:{row:i+2,values:tables.Registros[i]};};codeRow_=code=>{const i=(tables.Registros||[]).findIndex(r=>r[2]===code);return i<0?null:{getRow:()=>i+2};};`,Object.assign(context,{tables,range}));
+const u={email:'quality@example.invalid',sub:'google-test-1',role:'calidad',tri:'TES'},inst={...u,role:'instalaciones'},admin={...u,role:'admin'};
+const record=(id,date='2026-10-27')=>({id,kind:'liberacion',project:'D220',system:'ASC',date,responsible:'Prueba',state:'Borrador',fields:{},participants:[],annotations:[]});let tests=0;const test=(label,fn)=>{fn();tests++;console.log('PASS '+label);};
+test('Semanas ISO y cambio de año',()=>{assert.equal(context.iso_('2027-01-01').week,53);assert.equal(context.iso_('2027-01-01').year,2026);});
+test('Dos usuarios obtienen números diferentes y un reintento conserva el número',()=>{let r=record('record-test-001');let a=context.reserve_(u,{record:r}),b=context.reserve_({...u,sub:'test2'},{record:record('record-test-002')});assert.equal(a.code,'ASC4426-001');assert.equal(b.code,'ASC4426-002');assert.equal(context.reserve_(u,{record:r}).code,a.code);});
+test('La semana siguiente reinicia en 001',()=>assert.equal(context.reserve_(u,{record:record('record-test-003','2026-11-02')}).code,'ASC4526-001'));
+test('Reserva no cambia de sistema ni pasa a otro usuario',()=>{assert.throws(()=>context.reserve_(u,{record:{...record('record-test-001'),system:'PDA'}}));assert.throws(()=>context.reserve_({...u,sub:'another'},{record:record('record-test-001')}));});
+test('Instalaciones no puede acceder a RRHH',()=>assert.throws(()=>context.allowed_(inst,'rrhh'),/ACCESO_DENEGADO/));
+test('Proyecto legado con nombre se normaliza',()=>assert.equal(context.meta_({uuid:'legacy-id',sis:'ASC',datos:{proyecto:'D220 · Monorriel Santiago'}}).project,'D220'));
+test('Contador FNC exige último valor oficial y se comparte entre semanas',()=>{const d={...record('record-fnc-001'),kind:'nc',type:'FNC'};assert.throws(()=>context.reserve_(u,{record:d}),/inicializar/);tables.Consecutivos.push(['FNC|D220|2026',25]);assert.equal(context.reserve_(u,{record:d}).code,'FNC-D220-026-2026');assert.equal(context.reserve_(u,{record:{...d,date:'2026-11-02'}}).code,'FNC-D220-026-2026');});
+test('Reintentar un guardado no crea otra versión ni otro archivo',()=>{let r=record('record-save-01');const a=context.save_(u,{record:r,requestId:'request-1',baseVersion:0}),count=fileCounter;const b=context.save_(u,{record:r,requestId:'request-1',baseVersion:0});assert.equal(a.version,b.version);assert.equal(fileCounter,count);assert.throws(()=>context.save_(admin,{record:r,requestId:'request-2',baseVersion:0}),/CONFLICTO/);});
+test('Otro autor no puede sobrescribir el registro',()=>assert.throws(()=>context.save_({...u,email:'other@example.invalid'},{record:record('record-save-01'),requestId:'request-3',baseVersion:1}),/SOLO_LECTURA/));
+test('Sin responder incluye puntos todavía no registrados',()=>{const s=context.stats_({generales:{g:{res:'OK'}},respuestas:{},snapshot:{gens:[{},{}],points:[{},{}]}});assert.equal(s.OK,1);assert.equal(s.sin,3);});
+test('Fórmulas recibidas se conservan como texto',()=>assert.equal(context.safe_('=IMPORTXML("bad")'),'\'=IMPORTXML("bad")'));
+test('Calidad necesita autorización de firmas e Instalaciones no',()=>{const r=record('record-approval-1');assert.throws(()=>context.validateSignatures_(u,r),/FIRMAS/);context.validateSignatures_(inst,r);tables.Aprobaciones=[[1,r.id,context.documentHash_(r),'','Motivo','','Aprobada','admin@example.invalid']];context.validateSignatures_(u,r);r.fields.a='cambio';assert.throws(()=>context.validateSignatures_(u,r),/FIRMAS/);});
+console.log(tests+' pruebas de backend superadas. Google real pendiente de despliegue.');
+test('Eliminar exige autor, borrador y versión actual; evita resucitar UUID',()=>{const r=record('record-delete-01');context.save_(u,{record:r,requestId:'delete-save',baseVersion:0});assert.throws(()=>context.deleteDraft_({...u,email:'otro@example.invalid'},{id:r.id,baseVersion:1}),/autor o administrador/);assert.throws(()=>context.deleteDraft_(admin,{id:r.id,baseVersion:0}),/CONFLICTO/);context.deleteDraft_(admin,{id:r.id,baseVersion:1});assert.equal(context.deleteDraft_(admin,{id:r.id,baseVersion:1}).deleted,true);assert.throws(()=>context.save_(admin,{record:r,baseVersion:2}),/ELIMINADO/);assert.throws(()=>context.get_(u,r.id),/eliminado/);});
+test('No se elimina un registro finalizado',()=>{const r=record('record-final-delete');context.save_(u,{record:r,baseVersion:0});tables.Registros.find(x=>x[0]===r.id)[9]='Finalizada';assert.throws(()=>context.deleteDraft_(admin,{id:r.id,baseVersion:1}),/borradores/);});
+test('Esquema admite tipos válidos y protege campos de seguridad',()=>{const f={id:'campo1',type:'number',label:'Medida',options:[],scope:'iat'};context.validateSchema_([f]);assert.throws(()=>context.validateSchema_([{...f,binding:'role'}]),/protegido/);assert.throws(()=>context.validateSchema_([{...f,binding:'__proto__'}]),/protegido/);assert.throws(()=>context.validateSchema_([f,f]),/inválida/);});
+
+test('Autor edita borrador y no puede reabrir finalizado sin aprobación',()=>{const r=record('readonly-own');context.save_(u,{record:r,baseVersion:0,requestId:'own1'});assert.equal(context.save_(u,{record:r,baseVersion:1,requestId:'own2'}).version,2);tables.Registros.find(x=>x[0]===r.id)[9]='Finalizada';assert.throws(()=>context.save_(u,{record:r,baseVersion:2,requestId:'own3'}),/SOLO_LECTURA/);});
+test('RRHH privado: otro usuario no puede listar ni abrir por UUID',()=>{const r={...record('read-rrhh-all'),kind:'rrhh'};context.save_(admin,{record:r,baseVersion:0});const other={...inst,email:'other@example.invalid'};assert.throws(()=>context.get_(other,r.id),/ACCESO_DENEGADO/);assert.ok(!context.list_(other,{}).rows.some(x=>x.UUID===r.id));assert.equal(context.get_(admin,r.id).record.kind,'rrhh');});
+test('Proyecto se asigna por sistema y no por el dato enviado',()=>{const r={...record('auto-project-1'),system:'PDA',project:'D220'};context.save_(u,{record:r,baseVersion:0});assert.equal(r.project,'D229');});
+test('Cambiar el perfil cambia las funciones permitidas en el servidor',()=>{tables.Perfiles=[['admin','Admin',JSON.stringify(Object.keys(context.SOF_SECTIONS||{}))],['calidad','Calidad','["iat"]']];assert.throws(()=>context.allowed_(u,'liberacion'),/ACCESO_DENEGADO/);context.allowed_(u,'iat');tables.Perfiles=[];});
+test('El marcador de envío no invalida firmas',()=>{const r=record('hash-test-1'),h=context.documentHash_(r);r._submitRequested=true;assert.equal(context.documentHash_(r),h);});
+console.log('Todas las pruebas SOF-CAL 4 completadas.');
+const cache=new Map();context.CacheService={getScriptCache:()=>({put:(k,v)=>cache.set(k,v),get:k=>cache.get(k),remove:k=>cache.delete(k)})};context.Utilities.getUuid=()=>crypto.randomUUID();context.random_=()=>crypto.randomUUID();
+test('Mantenimiento y administración rechazan usuarios normales',()=>{assert.throws(()=>context.maintenance_(u,{mode:'records'}),/ACCESO_DENEGADO/);assert.throws(()=>context.admin_(u,{op:'read'}),/ACCESO_DENEGADO/);});
+test('Eliminar registros exige confirmación y conserva documentos y consecutivos',()=>{const counters=JSON.stringify(tables.Consecutivos),count=files.size,scope={kind:'liberacion',project:'D220'},p=context.maintenance_(admin,{mode:'records',scope});assert.ok(p.count>0);assert.throws(()=>context.maintenance_(admin,{mode:'records',scope,confirmToken:p.token,phrase:'NO'}),/confirmación/);const result=context.maintenance_(admin,{mode:'records',scope,confirmToken:p.token,phrase:p.phrase});assert.equal(result.done,p.count);assert.equal(JSON.stringify(tables.Consecutivos),counters);assert.equal(files.size,count);assert.throws(()=>context.maintenance_(admin,{mode:'records',scope,confirmToken:p.token,phrase:p.phrase}),/venció/);});
+test('Retirar documentos envía solo los archivos asociados a la papelera',()=>{let trashed=false;files.set('only-ref',{setTrashed:v=>trashed=v});tables.Documentos=[['record-save-01','','prueba.pdf','','https://drive.google.com/file/d/only-ref/view']];const p=context.maintenance_(admin,{mode:'documents',scope:{}});const result=context.maintenance_(admin,{mode:'documents',scope:{},confirmToken:p.token,phrase:p.phrase});assert.equal(result.done,1);assert.equal(trashed,true);});
+console.log(tests+' pruebas completadas sin conexión a Google real.');
+vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../google/Edicion45.gs'),'utf8'),context);
+context.MailApp={sendEmail:()=>{context.mailCount=(context.mailCount||0)+1;}};
+vm.runInContext(`let testIds45=0;random_=()=> 'request-'+(++testIds45);ensureSheet_=(name)=>{tables[name]??=[];return {getRange:(...args)=>range(name,...args)}};adminsRegistros44_=()=>['admin@example.invalid'];`,context);
+test('Reapertura: solicitud del autor, correo idempotente y aprobación administrativa',()=>{
+ const r={...record('approval-edit-45'),kind:'rrhh'};context.save_(u,{record:r,baseVersion:0});tables.Registros.find(x=>x[0]===r.id)[9]='Finalizada';
+ assert.throws(()=>context.editAccess45_({...u,email:'other@example.invalid'},{mode:'request',id:r.id,reason:'Corregir fecha'}),/autor/);
+ context.editAccess45_(u,{mode:'request',id:r.id,reason:'Corregir fecha'});context.editAccess45_(u,{mode:'request',id:r.id,reason:'Corregir fecha'});assert.equal(context.mailCount,1);
+ const item=context.editAccess45_(admin,{mode:'list'}).rows[0];assert.throws(()=>context.editAccess45_(u,{mode:'approve',id:r.id,requestId:item.id}),/Administrador/);
+ context.editAccess45_(admin,{mode:'approve',id:r.id,requestId:item.id});const out=context.get_(u,r.id).record;assert.equal(out.state,'Borrador');assert.equal(out._cloudOwner,u.email);assert.equal(context.save_(u,{record:out,baseVersion:out._cloudVersion}).version,3);
+});
+test('Nueva reserva evita códigos ya ocupados aunque el contador esté atrasado',()=>{
+ const r={uuid:'collision-next-45',sis:'ASC',inspectorTri:'TES',datos:{fecha:'2026-11-12',proyecto:'D220'},estado:'Borrador'};
+ tables.Consecutivos.push(['INSP|ASC|TES',0]);tables.Registros.push(['old-inspection','inspeccion','INSP-CAL-ASC-TES-0001','','D220','ASC','','','a@example.invalid','Finalizada']);
+ assert.equal(context.reserve_(u,{record:r}).code,'INSP-CAL-ASC-TES-0002');
+ assert.equal(context.renumber45_(u,{record:r}).code,'INSP-CAL-ASC-TES-0003');
+});
+test('SAT integración: serie INT, sistemas válidos y conservación de códigos existentes',()=>{
+ const r={...record('sat-integration-45','2026-11-12'),kind:'sat',integration45:true,system:'ASC',integratedSystems:['ASC','ESC']};
+ const result=context.reserve_(u,{record:r});assert.match(result.code,/^SAT-D220-INT-/);assert.equal(r.system,'INT');
+ assert.equal(context.reserve_(u,{record:r}).code,result.code);
+ for(const systems of [[],['ASC','ASC'],['NO-EXISTE']])assert.throws(()=>context.reserve_(u,{record:{...r,id:'sat-invalid-45',integratedSystems:systems}}),/SAT/);
+ const shared={...r,id:'sat-shared-45',integratedSystems:['ASC','PDA']};assert.match(context.reserve_(u,{record:shared}).code,/^SAT-D220-D229-INT-/);assert.equal(shared.project,'D220-D229');
+ const legacy={...record('sat-existing-45','2026-11-12'),kind:'sat'};assert.match(context.reserve_(u,{record:legacy}).code,/^SAT-D220-ASC-/);
+});
+test('Referencia anterior: conserva registros firmados y finalizados',()=>{
+ const create=(id,state,signs)=>({uuid:id,sis:'ASC',inspectorTri:'TES',inspectorNombre:'Prueba',datos:{fecha:'2026-11-12',proyecto:'D220'},estado:state,signs,prevConsec:'REFERENCIA-VALIDADA',prevUuid:'previous-reviewed'});
+ for(const [id,state,signs] of [['signed-prior-45','Borrador',{inspector:{image:'firma'}}],['closed-prior-45','Finalizada',{}]]){
+  const r=create(id,state,signs);context.save_(u,{record:r,baseVersion:0});
+  const saved=context.get_(u,id).record;assert.equal(saved.prevConsec,'REFERENCIA-VALIDADA');assert.equal(saved.prevUuid,'previous-reviewed');
+ }
+ const draft=create('draft-prior-45','Borrador',{});context.save_(u,{record:draft,baseVersion:0});assert.notEqual(draft.prevConsec,'REFERENCIA-VALIDADA');
+});

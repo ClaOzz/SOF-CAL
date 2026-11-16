@@ -1,0 +1,9 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+(async()=>{
+ let calls=0,fail=false;const c={PdfForms:{},Map,Uint8Array,Error,fetch:async()=>{calls++;if(fail)throw Error('offline');return {ok:true,arrayBuffer:async()=>Uint8Array.from([37,80,68,70]).buffer}},sfBytes:()=>Uint8Array.from([1])};vm.createContext(c);vm.runInContext(fs.readFileSync('release/SOF-CAL/fuentes/forms.js','utf8')+';this.F=FormEditor',c);
+ const t={dataURL:'./formatos/test.pdf'};const [a,b]=await Promise.all([c.F.templateBytes(t),c.F.templateBytes(t)]);assert.equal(calls,1);assert.equal(a[0],37);a[0]=0;assert.equal(b[0],37);assert.equal((await c.F.templateBytes({data:'custom'}))[0],1);
+ fail=true;await assert.rejects(()=>c.F.templateBytes({dataURL:'retry.pdf'}));fail=false;await c.F.templateBytes({dataURL:'retry.pdf'});assert.equal(calls,3);
+ const html=fs.readFileSync('release/SOF-CAL/web/index.html','utf8'),assets=JSON.parse(html.match(/id="sofcal-v3-assets"[^>]*>([\s\S]*?)<\/script>/)[1]);for(const t of assets.templates){assert(!t.data);const bytes=fs.readFileSync('release/SOF-CAL/web/'+t.dataURL);assert.equal(bytes.subarray(0,4).toString(),'%PDF');}assert(Buffer.byteLength(html)<11000000);
+ let refreshCalls=0;const r={Cloud:{refresh:async()=>{refreshCalls++;await new Promise(resolve=>setTimeout(resolve,5));}},App:{view:'portal'},Portal:{record:null},render:()=>{}};vm.createContext(r);const source=fs.readFileSync('release/SOF-CAL/fuentes/release44.js','utf8');vm.runInContext(source.split('\n').find(l=>l.startsWith('const refreshHistory44=')),r);await Promise.all([r.Cloud.refresh(),r.Cloud.refresh()]);assert.equal(refreshCalls,1);await r.Cloud.refresh();assert.equal(refreshCalls,2);
+ console.log('PASS formatos bajo demanda, solicitudes simultáneas, copia independiente, formatos propios, reintento y 67 PDF disponibles.');
+})().catch(e=>{console.error(e);process.exit(1)});

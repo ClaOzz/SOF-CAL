@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict'),D=require('../fuentes/dashboard45.js');
+const user={email:'Ana@example.invalid',role:'calidad'},admin={email:'admin@example.invalid',role:'admin'};
+const rows=[{id:1,email:'ana@example.invalid',responsible:'Mismo nombre'},{id:2,email:'otra@example.invalid',responsible:'Mismo nombre'},{id:3,_localOwner:'ANA@example.invalid'},{id:4,responsible:'Mismo nombre'}];
+assert.deepEqual(D.rows(rows,user).map(r=>r.id),[1,3]);
+D.select(user,'all');assert.equal(D.rows(rows,user).length,4);
+D.reset(user);assert.equal(D.rows(rows,user).length,2);
+D.select(user,'email:otra@example.invalid');assert.deepEqual(D.rows(rows,user).map(r=>r.id),[2]);
+assert.equal(D.rows(rows,admin).length,4);
+assert.deepEqual(D.rows(rows,user).map(r=>r.id),[1,3]);
+assert.deepEqual(D.rows(rows,null),[]);
+console.log('PASS indicadores: propios por correo, selección explícita del equipo, homónimos, reinicio de filtros y cambio de cuenta.');

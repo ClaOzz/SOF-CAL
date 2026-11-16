@@ -1,0 +1,9 @@
+SOF-CAL 4.0.2
+
+Corrige el botón Conectando y actualiza la URL de Google a la suministrada. Migra automáticamente la dirección anterior conocida; conserva otras personalizadas. Al migrar solicita nuevamente acceso Google y conserva borradores y hoja.
+
+Reemplaza web/index.html, web/sw.js y web/config.json en GitHub Desktop. Commit y Push origin. Espera que termine Publicar SOF-CAL y recarga Ctrl+Shift+R. Confirma SOF-CAL 4.0.2. No borres datos del navegador ni cambies perfiles.
+
+No cambia el servidor en este parche. La nueva URL /exec debe estar publicada con Code.gs, Dashboard.gs y Administration.gs de la versión 4.0. El vínculo no se ha probado contra tu cuenta real.
+
+Ocho comprobaciones locales superadas: carga sin sesión, error, tres perfiles, recuperación del botón, migración y conservación de configuración personalizada.

@@ -1,0 +1,13 @@
+const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
+const tables={};const ctx={console,Date,JSON,Object,String,Array,Error,Number,Math,RegExp,Set,adminOnly_:u=>{if(u.role!=='admin')throw Error('Solo administrador')},setup42_:()=>{},values_:n=>tables[n]||[],append_:(n,a)=>{tables[n]??=[];tables[n].push(...a)},safe_:v=>v,ensureSheet_:n=>tables[n]??=[],equipmentState42_:()=>({state:'Vencido'}),Utilities:{formatDate:()=> '2026-11-06'}};
+vm.createContext(ctx);vm.runInContext(fs.readFileSync('release/SOF-CAL/google/Importacion43.gs','utf8'),ctx);
+const d=JSON.parse(fs.readFileSync('release/SOF-CAL/importacion-privada/datos-iniciales.json','utf8'));const admin={role:'admin',email:'qa@example.invalid'};
+assert.equal(d.records.length,522);assert.equal(new Set(d.records.map(x=>x.record.id)).size,522);
+assert.throws(()=>ctx.importCopies43_({role:'consulta'},{items:[]}),/administrador/);
+let total=0;for(let i=0;i<d.records.length;i+=10)total+=ctx.importCopies43_(admin,{items:d.records.slice(i,i+10)}).inserted;
+assert.equal(total,522);assert.equal(tables.Equipos_Medicion.length,154);assert.equal(tables.Seguimiento_Calidad.length,368);
+let skips=0;for(let i=0;i<d.records.length;i+=10)skips+=ctx.importCopies43_(admin,{items:d.records.slice(i,i+10)}).skipped;assert.equal(skips,522);
+for(let i=0;i<d.unmatchedActions.length;i+=10)ctx.importCopies43_(admin,{items:[],unmatchedActions:d.unmatchedActions.slice(i,i+10)});
+assert.equal(tables.Importacion_Revision43.length,39);assert.equal(d.records.filter(x=>x.module==='quality').reduce((n,x)=>n+x.record.actions.length,0),130);
+assert.equal(d.records.filter(x=>x.module==='quality'&&x.record.importWarning).length,20);
+console.log('PASS 522 registros, 130 acciones asociadas, 39 por revisar, 20 filas con código repetido; reimportación idempotente; permisos.');

@@ -1,0 +1,11 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict'),path=require('path');
+const root=path.resolve(__dirname,'..'),c={Set,Date,JSON,Error,Array,String,Number,RegExp,console,Cloud:{catalog:async()=>{}},Portal:{logout:async()=>{},helpView:()=>'',links:[]},DocLinks:{},V3Events:{action:async()=>{}},Settings:{view:()=>''},Schema:{screen:async()=>{},mount:()=>{}},Catalog:{load:async()=>{}},Materials:{points:()=>[]},PDF:{build:async()=>{}},Insp:{finalizeErrors:()=>[]},Sofcal:{points:i=>i.points},FormEditor:{errors:()=>[]},render:()=>{},refreshCard:()=>{},secRecursos:()=>'',cardHTML:()=>'',CAT:{points:[]},CATALOG41:JSON.parse(fs.readFileSync(root+'/fuentes/catalog41.json')),clone:x=>JSON.parse(JSON.stringify(x)),indexCatalog:()=>{},Store:{put:async()=>{}}};
+vm.createContext(c);vm.runInContext(fs.readFileSync(root+'/fuentes/release41.js','utf8')+'\nthis.rules=Resource41;this.migrate=migrate41;',c);
+const plan={usado:'Sí',categoria:'Plano',nombre:'Plano',ident:'PL01',revision:'V1'},point={p:{id:'RIS-014',ins:'Prueba de torque'},r:{res:'OK'}},equipment={usado:'Sí',categoria:'Equipo de medición',nombre:'Torquímetro',ident:'EQ01',serial:'SN01 certificado vigente',puntos:'RIS-014'};
+assert.equal(c.rules.errors({recursos:[],points:[point]}).length,2);
+assert.equal(c.rules.errors({recursos:[plan,equipment],points:[point]}).length,0);
+point.r={res:'PEND'};assert.equal(c.rules.errors({recursos:[plan],points:[point]}).length,1);
+point.r={res:'N/A'};assert.equal(c.rules.errors({recursos:[plan],points:[point]}).length,0);
+point.r={res:'PEND',obs:'Falta prueba',responsable:'QA',fechaSeguimiento:'2026-11-01',pruebaRealizada:'Sí'};assert.equal(c.rules.errors({recursos:[plan],points:[point]}).length,1);
+assert.equal(new Set(c.CATALOG41.changes.map(x=>x.after.id)).size,c.CATALOG41.changes.length);
+(async()=>{await c.migrate();const n=c.CAT.points.length;await c.migrate();assert.equal(c.CAT.points.length,n);console.log('PASS 4.1: arranque del módulo, planos, equipos, PEND, N/A y migración idempotente');})();
