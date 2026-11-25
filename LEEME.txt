@@ -1,5 +1,0 @@
-SOF-CAL 4.5.2
-
-Empiece por ACTUALIZAR-4.5.2.md.
-Desde 4.5.1: actualizar Notificaciones44.gs y Code.gs, publicar nueva versión y actualizar web/APK.
-Se conservan los registros y la configuración existente.

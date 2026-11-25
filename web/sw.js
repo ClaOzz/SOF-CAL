@@ -1,6 +1,6 @@
-// SOF-CAL 4.5.6 — PDF, edición y LME Excel.
-const CACHE='sof-cal-v456-20261120-emision-lme';
-const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
+// SOF-CAL 5.0.0 — web.
+const CACHE='sof-cal-v500-20261124-web';
+const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./plantillas500/equipment.xlsx','./plantillas500/quality.xlsx'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('sof-cal-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
